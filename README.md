@@ -92,6 +92,205 @@ class _HolaMundoState extends State<HolaMundo> {
 }
 }
 PRACTICA 3 *-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Importa el paquete principal de Flutter que incluye
+// los widgets necesarios para construir la interfaz gráfica
+import 'package:flutter/material.dart';
+
+// Función principal: punto de entrada de la aplicación
+void main() {
+  // Inicia la aplicación y carga el widget raíz
+  runApp(const MyApp());
+}
+
+// Widget raíz de la aplicación
+// StatelessWidget porque no maneja cambios de estado
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // MaterialApp define la configuración general de la app
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // Pantalla inicial de la aplicación
+      home: const MenuPrincipal(),
+    );
+  }
+}
+
+// ======================================================
+// PANTALLA PRINCIPAL (MENÚ DE NAVEGACIÓN)
+// ======================================================
+class MenuPrincipal extends StatelessWidget {
+  const MenuPrincipal({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Barra superior
+      appBar: AppBar(
+        title: const Text('Menú DartPad'),
+        centerTitle: true,
+      ),
+
+      // Contenido principal
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Botón que navega a la pantalla Hola Mundo simple
+            ElevatedButton(
+              child: const Text('Hola Mundo'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const HolaMundoSimple(),
+                  ),
+                );
+              },
+            ),
+
+            const SizedBox(height: 20),
+
+            // Botón que navega a la pantalla Hola Mundo x10
+            ElevatedButton(
+              child: const Text('Hola Mundo x10'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const HolaMundoX10(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ======================================================
+// PANTALLA 1: HOLA MUNDO SIMPLE
+// ======================================================
+class HolaMundoSimple extends StatelessWidget {
+  const HolaMundoSimple({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Barra superior
+      appBar: AppBar(
+        title: const Text('Hola Mundo'),
+      ),
+
+      // Contenido centrado
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Texto principal
+            const Text(
+              '¡Hola Mundo!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Botón para regresar al menú principal
+            ElevatedButton(
+              onPressed: () {
+                // Navigator.pop regresa a la pantalla anterior
+                Navigator.pop(context);
+              },
+              child: const Text('Regresar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ======================================================
+// PANTALLA 2: HOLA MUNDO AGREGADO HASTA 10 VECES
+// ======================================================
+class HolaMundoX10 extends StatefulWidget {
+  const HolaMundoX10({super.key});
+
+  @override
+  State<HolaMundoX10> createState() => _HolaMundoX10State();
+}
+
+// Clase que gestiona el estado dinámico de la pantalla
+class _HolaMundoX10State extends State<HolaMundoX10> {
+  // Lista que almacena los mensajes "Hola Mundo"
+  final List<String> mensajes = [];
+
+  // Método que agrega un mensaje a la lista
+  void agregarMensaje() {
+    // Se limita el número máximo a 10 mensajes
+    if (mensajes.length < 10) {
+      setState(() {
+        mensajes.add('Hola Mundo');
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Barra superior
+      appBar: AppBar(
+        title: const Text('Hola Mundo x10'),
+      ),
+
+      // Cuerpo de la pantalla
+      body: Column(
+        children: [
+          const SizedBox(height: 10),
+
+          // Botón para agregar mensajes
+          ElevatedButton(
+            onPressed: agregarMensaje,
+            child: const Text('Agregar Hola Mundo'),
+          ),
+
+          // Expanded permite que la lista use el espacio restante
+          Expanded(
+            // ListView.builder genera la lista dinámicamente
+            child: ListView.builder(
+              itemCount: mensajes.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  // Número de orden
+                  leading: Text('${index + 1}'),
+                  // Texto del mensaje
+                  title: Text(mensajes[index]),
+                );
+              },
+            ),
+          ),
+
+          // Botón para regresar al menú principal
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Regresar'),
+          ),
+
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+}
 
 
 
